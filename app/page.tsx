@@ -178,8 +178,8 @@ export default function ModerationTestPage() {
                         {result.level === 'safe'
                           ? "Content is safe 👍"
                           : result.level === 'warning'
-                          ? "Content flagged as warning ⚠️"
-                          : "Content flagged as dangerous 🚫"}
+                            ? "Content flagged as warning ⚠️"
+                            : "Content flagged as dangerous 🚫"}
                       </div>
                       <div className="text-sm text-gray-600 space-y-1">
                         <div>Score: {result.score} (Confidence: {(result.confidence * 100).toFixed(1)}%)</div>
@@ -192,7 +192,7 @@ export default function ModerationTestPage() {
             </Card>
 
             <div className="text-right text-sm text-gray-500">
-              powered by <span className="font-semibold">upstash</span>
+              powered by <span className="font-semibold">azure</span>
             </div>
           </div>
         </div>
