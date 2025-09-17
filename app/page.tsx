@@ -1,103 +1,259 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Shield, Github, Check } from "lucide-react"
+
+interface ModerationResult {
+  success: boolean
+  level: 'safe' | 'warning' | 'danger'
+  score: number
+  confidence: number
+  meta: {
+    timestamp: string
+    processingTime: number
+    version: string
+  }
+}
+
+export default function ModerationTestPage() {
+  const [content, setContent] = useState("")
+  const [result, setResult] = useState<ModerationResult | null>(null)
+  const [loading, setLoading] = useState(false)
+
+  const handleModeration = async () => {
+    if (!content.trim()) return
+
+    setLoading(true)
+
+    try {
+      const response = await fetch("/api/moderation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content }),
+      })
+
+      const data = await response.json()
+      setResult(data)
+    } catch (err) {
+      console.error("Moderation failed:", err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="text-xl font-bold">ModerationAPI</span>
+            </div>
+            <nav className="hidden md:flex items-center gap-8">
+              <a href="#" className="text-gray-600 hover:text-gray-900">
+                Video Demo
+              </a>
+              <a href="#" className="text-gray-600 hover:text-gray-900">
+                API
+              </a>
+            </nav>
+            <Button variant="outline" className="flex items-center gap-2 bg-transparent">
+              <Github className="h-4 w-4" />
+              Star on GitHub
+              <span className="text-red-500">♥</span>
+            </Button>
+          </div>
+        </div>
+      </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <main className="max-w-7xl mx-auto px-4 py-16">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
+          <div className="space-y-8">
+            <div className="space-y-6">
+
+              <h1 className="text-6xl font-bold text-gray-900 leading-tight">ModerationAPI</h1>
+
+              <p className="text-xl text-gray-700 leading-relaxed">
+                Detecting toxic content has always been <span className="text-red-500 font-bold">SLOW</span> and{" "}
+                <span className="text-red-500 font-bold">EXPENSIVE</span>. Not anymore. Introducing a fast, free and
+                open-source content moderation filter for your web apps.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <Check className="h-5 w-5 text-red-500" />
+                <span className="text-gray-700">Much faster and cheaper to run than AI</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Check className="h-5 w-5 text-red-500" />
+                <span className="text-gray-700">Pretty accurate</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Check className="h-5 w-5 text-red-500" />
+                <span className="text-gray-700">100% free & open-source</span>
+              </div>
+            </div>
+
+            {/* <div className="flex items-center gap-4 pt-8">
+              <div className="flex -space-x-2">
+                <div key="avatar-1" className="w-10 h-10 bg-blue-500 rounded-full border-2 border-white"></div>
+                <div key="avatar-2" className="w-10 h-10 bg-green-500 rounded-full border-2 border-white"></div>
+                <div key="avatar-3" className="w-10 h-10 bg-purple-500 rounded-full border-2 border-white"></div>
+                <div key="avatar-4" className="w-10 h-10 bg-yellow-500 rounded-full border-2 border-white"></div>
+                <div key="avatar-5" className="w-10 h-10 bg-pink-500 rounded-full border-2 border-white"></div>
+              </div>
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-red-500 text-red-500" />
+                ))}
+              </div>
+              <span className="text-gray-700 font-medium">172,080 API requests served</span>
+            </div> */}
+          </div>
+
+          <div className="space-y-6">
+            <div className="relative">
+              <div className="absolute -top-8 -right-4 transform rotate-12">
+                <span className="text-2xl text-gray-500" style={{ fontFamily: "Kalam, cursive" }}>
+                  Try it
+                </span>
+                <div className="ml-12 -mt-2">
+                  <svg width="40" height="20" viewBox="0 0 40 20" className="text-gray-400">
+                    <path
+                      d="M5 15 Q 20 5, 35 10"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M30 8 L35 10 L32 13"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <Card className="p-6 bg-white shadow-lg">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <Badge variant="secondary" className="bg-gray-800 text-white">
+                    POST
+                  </Badge>
+                  <span className="font-mono">https://sensetive-word-check.fly.dev/api/detect</span>
+                </div>
+
+                <Textarea
+                  placeholder="this is definitely not a swear word"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  className="min-h-24 border-gray-200"
+                />
+
+                <Button
+                  onClick={handleModeration}
+                  disabled={loading || !content.trim()}
+                  className="w-full bg-red-500 hover:bg-red-600 text-white font-medium"
+                >
+                  {loading ? "Checking..." : "Moderation check"}
+                </Button>
+
+                {result && (
+                  <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <div className="text-center">
+                      <div className="text-lg font-medium text-gray-900 mb-2">
+                        {result.level === 'safe'
+                          ? "Content is safe 👍"
+                          : result.level === 'warning'
+                          ? "Content flagged as warning ⚠️"
+                          : "Content flagged as dangerous 🚫"}
+                      </div>
+                      <div className="text-sm text-gray-600 space-y-1">
+                        <div>Score: {result.score} (Confidence: {(result.confidence * 100).toFixed(1)}%)</div>
+                        <div>Processing time: {result.meta.processingTime}ms</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Card>
+
+            <div className="text-right text-sm text-gray-500">
+              powered by <span className="font-semibold">upstash</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-24">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">API Documentation</h2>
+
+            <Tabs defaultValue="javascript" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="javascript">JavaScript</TabsTrigger>
+                <TabsTrigger value="python">Python</TabsTrigger>
+                <TabsTrigger value="curl">cURL</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="javascript" className="mt-6">
+                <Card className="p-6">
+                  <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
+                    <code>{`const response = await fetch('https://sensetive-word-check.fly.dev/api/detect', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    text: '测试文本'
+  })
+});
+
+const result = await response.json();
+console.log(result.flagged); // true/false`}</code>
+                  </pre>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="python" className="mt-6">
+                <Card className="p-6">
+                  <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
+                    <code>{`import requests
+
+response = requests.post('https://sensetive-word-check.fly.dev/api/detect',
+    json={'text': '测试文本'})
+
+result = response.json()
+print(result['flagged'])  # True/False`}</code>
+                  </pre>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="curl" className="mt-6">
+                <Card className="p-6">
+                  <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm">
+                    <code>{`curl -X POST https://sensetive-word-check.fly.dev/api/detect \\
+  -H "Content-Type: application/json" \\
+  -d '{"text": "测试文本"}'`}</code>
+                  </pre>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
-  );
+  )
 }
