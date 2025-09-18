@@ -54,7 +54,7 @@ export default function ModerationTestPage() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="text-xl font-bold">ModerationAPI</span>
+              <span className="text-xl font-bold">敏感词检测 API</span>
             </div>
             <Button variant="outline" className="flex items-center gap-2 bg-transparent" asChild>
               <a href="https://github.com/andy00614/sensetive-word-check" target="_blank" rel="noopener noreferrer">
@@ -72,27 +72,26 @@ export default function ModerationTestPage() {
           <div className="space-y-8">
             <div className="space-y-6">
 
-              <h1 className="text-6xl font-bold text-gray-900 leading-tight">ModerationAPI</h1>
+              <h1 className="text-6xl font-bold text-gray-900 leading-tight">中文敏感词检测</h1>
 
               <p className="text-xl text-gray-700 leading-relaxed">
-                Detecting toxic content has always been <span className="text-red-500 font-bold">SLOW</span> and{" "}
-                <span className="text-red-500 font-bold">EXPENSIVE</span>. Not anymore. Introducing a fast, free and
-                open-source content moderation filter for your web apps.
+                专业的中文敏感词检测服务，结合<span className="text-blue-500 font-bold">本地算法</span>和{" "}
+                <span className="text-blue-500 font-bold">Azure AI</span>，为您的应用提供快速、准确、全面的内容审核。
               </p>
             </div>
 
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <Check className="h-5 w-5 text-red-500" />
-                <span className="text-gray-700">Much faster and cheaper to run than AI</span>
+                <span className="text-gray-700">本地+AI混合检测，更高准确率</span>
               </div>
               <div className="flex items-center gap-3">
                 <Check className="h-5 w-5 text-red-500" />
-                <span className="text-gray-700">Pretty accurate</span>
+                <span className="text-gray-700">支持中文政治、暴力、色情等全面检测</span>
               </div>
               <div className="flex items-center gap-3">
                 <Check className="h-5 w-5 text-red-500" />
-                <span className="text-gray-700">100% free & open-source</span>
+                <span className="text-gray-700">高性能 AhoCorasick 算法，毫秒级响应</span>
               </div>
             </div>
 
@@ -151,7 +150,7 @@ export default function ModerationTestPage() {
                 </div>
 
                 <Textarea
-                  placeholder="this is definitely not a swear word"
+                  placeholder="请输入需要检测的文本内容..."
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   className="min-h-24 border-gray-200"
@@ -162,7 +161,7 @@ export default function ModerationTestPage() {
                   disabled={loading || !content.trim()}
                   className="w-full bg-red-500 hover:bg-red-600 text-white font-medium"
                 >
-                  {loading ? "Checking..." : "Moderation check"}
+                  {loading ? "检测中..." : "开始检测"}
                 </Button>
 
                 {result && (
@@ -170,14 +169,14 @@ export default function ModerationTestPage() {
                     <div className="text-center">
                       <div className="text-lg font-medium text-gray-900 mb-2">
                         {result.level === 'safe'
-                          ? "Content is safe 👍"
+                          ? "内容安全 👍"
                           : result.level === 'warning'
-                            ? "Content flagged as warning ⚠️"
-                            : "Content flagged as dangerous 🚫"}
+                            ? "内容可能敏感 ⚠️"
+                            : "内容包含敏感词 🚫"}
                       </div>
                       <div className="text-sm text-gray-600 space-y-1">
-                        <div>Score: {result.score} (Confidence: {(result.confidence * 100).toFixed(1)}%)</div>
-                        <div>Processing time: {result.meta.processingTime}ms</div>
+                        <div>分数: {result.score} (置信度: {(result.confidence * 100).toFixed(1)}%)</div>
+                        <div>处理时间: {result.meta.processingTime}ms</div>
                       </div>
                     </div>
                   </div>
@@ -186,7 +185,7 @@ export default function ModerationTestPage() {
             </Card>
 
             <div className="text-right text-sm text-gray-500">
-              powered by <span className="font-semibold">azure</span>
+              powered by <span className="font-semibold">本地算法 + Azure AI</span>
             </div>
           </div>
         </div>
