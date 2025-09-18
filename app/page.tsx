@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Shield, Github, Check } from "lucide-react"
+import { Logo } from "@/components/logo"
 
 interface ModerationResult {
   success: boolean
@@ -54,7 +55,7 @@ export default function ModerationTestPage() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="text-xl font-bold">敏感词检测 API</span>
+              <Logo size="md" />
             </div>
             <Button variant="outline" className="flex items-center gap-2 bg-transparent" asChild>
               <a href="https://github.com/andy00614/sensetive-word-check" target="_blank" rel="noopener noreferrer">
