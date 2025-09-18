@@ -56,18 +56,12 @@ export default function ModerationTestPage() {
             <div className="flex items-center gap-2">
               <span className="text-xl font-bold">ModerationAPI</span>
             </div>
-            <nav className="hidden md:flex items-center gap-8">
-              <a href="#" className="text-gray-600 hover:text-gray-900">
-                Video Demo
+            <Button variant="outline" className="flex items-center gap-2 bg-transparent" asChild>
+              <a href="https://github.com/andy00614/sensetive-word-check" target="_blank" rel="noopener noreferrer">
+                <Github className="h-4 w-4" />
+                Star on GitHub
+                <span className="text-red-500">♥</span>
               </a>
-              <a href="#" className="text-gray-600 hover:text-gray-900">
-                API
-              </a>
-            </nav>
-            <Button variant="outline" className="flex items-center gap-2 bg-transparent">
-              <Github className="h-4 w-4" />
-              Star on GitHub
-              <span className="text-red-500">♥</span>
             </Button>
           </div>
         </div>
@@ -121,11 +115,11 @@ export default function ModerationTestPage() {
 
           <div className="space-y-6">
             <div className="relative">
-              <div className="absolute -top-8 -right-4 transform rotate-12">
+              <div className="absolute -top-4 right-2 transform rotate-12 z-20">
                 <span className="text-2xl text-gray-500" style={{ fontFamily: "Kalam, cursive" }}>
                   Try it
                 </span>
-                <div className="ml-12 -mt-2">
+                <div className="ml-8 mt-1">
                   <svg width="40" height="20" viewBox="0 0 40 20" className="text-gray-400">
                     <path
                       d="M5 15 Q 20 5, 35 10"
@@ -147,7 +141,7 @@ export default function ModerationTestPage() {
               </div>
             </div>
 
-            <Card className="p-6 bg-white shadow-lg">
+            <Card className="p-6 bg-white shadow-lg relative">
               <div className="space-y-4">
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Badge variant="secondary" className="bg-gray-800 text-white">
