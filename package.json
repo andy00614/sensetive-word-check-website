@@ -2,11 +2,13 @@
   "name": "sensetive-test-website",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:cases": "node scripts/run-moderation-tests.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
