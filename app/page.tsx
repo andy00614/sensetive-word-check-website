@@ -6,20 +6,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Shield, Github, Check } from "lucide-react"
+import { Github, Check } from "lucide-react"
 import { Logo } from "@/components/logo"
-
-interface ModerationResult {
-  success: boolean
-  level: 'safe' | 'warning' | 'danger'
-  score: number
-  confidence: number
-  meta: {
-    timestamp: string
-    processingTime: number
-    version: string
-  }
-}
+import type { ModerationResult } from "@/lib/moderation"
 
 export default function ModerationTestPage() {
   const [content, setContent] = useState("")
